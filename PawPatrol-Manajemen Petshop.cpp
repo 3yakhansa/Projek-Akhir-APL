@@ -151,7 +151,7 @@ void registrasi()
     }
 }
 
-void tambahHewan(hewan *daftar, int *jumlah)
+void tambah_hewan_ptr(hewan *daftar, int *jumlah)
 {
     if (*jumlah >= limit_hewan)
     {
@@ -552,7 +552,7 @@ int main()
         switch (pilihan)
         {
         case 1:
-            tambahHewan(daftar_hewan, &jumlah_hewan);
+            tambah_hewan_ptr(daftar_hewan, &jumlah_hewan);
             break;
         case 2:
             tampilkan_hewan(daftar_hewan, jumlah_hewan);
