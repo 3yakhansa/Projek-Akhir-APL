@@ -162,6 +162,103 @@ void registrasi()
     }
 }
 
+void tampilkan_data(Customer daftar_cust[], int jumlah_cust, hewan daftar_hewan[], int jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========= TAMPILKAN DATA =========";
+        cout << "\n1. Tampilkan Data Customer";
+        cout << "\n2. Tampilkan Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true; 
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        }
+
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        tampilkan_customer(daftar_cust, jumlah_cust);
+    } else if (pilihan == 2) {
+        tampilkan_hewan(daftar_hewan, jumlah_hewan);
+    }
+}
+
+void ubah_data(Customer daftar_cust[], int jumlah_cust, hewan daftar_hewan[], int jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========== UBAH DATA ==========";
+        cout << "\n1. Ubah Data Customer";
+        cout << "\n2. Ubah Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true;
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        ubah_customer(daftar_cust, jumlah_cust);
+    } else if (pilihan == 2) {
+        ubah_hewan_ptr(daftar_hewan, jumlah_hewan);
+    }
+}
+
+void hapus_data(Customer daftar_cust[], int &jumlah_cust, hewan daftar_hewan[], int *jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========== HAPUS DATA ==========";
+        cout << "\n1. Hapus Data Customer";
+        cout << "\n2. Hapus Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true;
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        hapus_customer(daftar_cust, jumlah_cust);
+    } else if (pilihan == 2) {
+        hapus_hewan_ptr(daftar_hewan, jumlah_hewan);
+    }
+}
+
 int cariCustomerByUsername(Customer daftar[], int jumlah, string username) {
     for (int i = 0; i < jumlah; i++) {
         if (daftar[i].username == username) {
