@@ -24,7 +24,8 @@ struct User
 User daftar_user[limit_user];
 int jumlah_user = 0;
 
-struct Customer {
+struct Customer 
+{
     int id;
     string nama;
     string username;
@@ -51,6 +52,10 @@ int jumlah_hewan = 0;
 
 bool loginUser(string username, string password)
 {
+    if (username == "pawpatrol" && password == "bayardulu") {
+        return true; 
+    }
+
     for (int i = 0; i < jumlah_user; i++)
     {
         if (daftar_user[i].username == username && daftar_user[i].password == password)
@@ -65,11 +70,11 @@ void welcomeMessage(string nama = "pengguna", string peran = "pengguna")
 {
     if (peran == "admin")
     {
-        cout << "Login berhasil sebagai ADMIN. Selamat datang, " << nama << "!\n";
+        cout << "\nLogin berhasil sebagai ADMIN. Selamat datang, " << nama << "!\n";
     }
     else
     {
-        cout << "Login berhasil sebagai pengguna, Selamat datang " << nama << "!\n";
+        cout << "\nLogin berhasil sebagai pengguna, Selamat datang " << nama << "!\n";
     }
 }
 
@@ -154,108 +159,11 @@ void registrasi()
         }
 
         jumlah_user++;
-        cout << "Registrasi berhasil!\n";
+        cout << "\nRegistrasi berhasil!\n";
     }
     else
     {
-        cout << "Kapasitas pengguna penuh.\n";
-    }
-}
-
-void tampilkan_data(Customer daftar_cust[], int jumlah_cust, hewan daftar_hewan[], int jumlah_hewan) {
-    int pilihan;
-    bool valid = false;
-
-    do {
-        cout << "\n========= TAMPILKAN DATA =========";
-        cout << "\n1. Tampilkan Data Customer";
-        cout << "\n2. Tampilkan Data Hewan";
-        cout << "\nPilih (1/2): ";
-
-        if (cin >> pilihan) {
-            if (pilihan == 1 || pilihan == 2) {
-                valid = true; 
-            } else {
-                cout << "Pilihan hanya 1 atau 2!\n";
-            }
-        } else {
-            cout << "Input tidak valid! Masukkan angka saja.\n";
-            cin.clear(); 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-        }
-
-    } while (!valid);
-
-    cin.ignore(); 
-
-    if (pilihan == 1) {
-        tampilkan_customer(daftar_cust, jumlah_cust);
-    } else if (pilihan == 2) {
-        tampilkan_hewan(daftar_hewan, jumlah_hewan);
-    }
-}
-
-void ubah_data(Customer daftar_cust[], int jumlah_cust, hewan daftar_hewan[], int jumlah_hewan) {
-    int pilihan;
-    bool valid = false;
-
-    do {
-        cout << "\n========== UBAH DATA ==========";
-        cout << "\n1. Ubah Data Customer";
-        cout << "\n2. Ubah Data Hewan";
-        cout << "\nPilih (1/2): ";
-
-        if (cin >> pilihan) {
-            if (pilihan == 1 || pilihan == 2) {
-                valid = true;
-            } else {
-                cout << "Pilihan hanya 1 atau 2!\n";
-            }
-        } else {
-            cout << "Input tidak valid! Masukkan angka saja.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    } while (!valid);
-
-    cin.ignore(); 
-
-    if (pilihan == 1) {
-        ubah_customer(daftar_cust, jumlah_cust);
-    } else if (pilihan == 2) {
-        ubah_hewan_ptr(daftar_hewan, jumlah_hewan);
-    }
-}
-
-void hapus_data(Customer daftar_cust[], int &jumlah_cust, hewan daftar_hewan[], int *jumlah_hewan) {
-    int pilihan;
-    bool valid = false;
-
-    do {
-        cout << "\n========== HAPUS DATA ==========";
-        cout << "\n1. Hapus Data Customer";
-        cout << "\n2. Hapus Data Hewan";
-        cout << "\nPilih (1/2): ";
-
-        if (cin >> pilihan) {
-            if (pilihan == 1 || pilihan == 2) {
-                valid = true;
-            } else {
-                cout << "Pilihan hanya 1 atau 2!\n";
-            }
-        } else {
-            cout << "Input tidak valid! Masukkan angka saja.\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    } while (!valid);
-
-    cin.ignore(); 
-
-    if (pilihan == 1) {
-        hapus_customer(daftar_cust, jumlah_cust);
-    } else if (pilihan == 2) {
-        hapus_hewan_ptr(daftar_hewan, jumlah_hewan);
+        cout << "\nKapasitas pengguna penuh.\n";
     }
 }
 
@@ -268,7 +176,7 @@ int cariCustomerByUsername(Customer daftar[], int jumlah, string username) {
     return -1;
 }
 
-void tampilkan_customer(Customer daftar[], int jumlah) {
+void tampilkanCustomer(Customer daftar[], int jumlah) {
     if (jumlah == 0) {
         cout << "Tidak ada data customer.\n";
         return;
@@ -339,130 +247,6 @@ void tampilkan_customer(Customer daftar[], int jumlah) {
     }
 }
 
-void ubah_customer(Customer daftar[], int jumlah) {
-    if (jumlah == 0) {
-        cout << "Tidak ada data customer untuk diubah.\n";
-        return;
-    }
-
-    string username;
-    cout << "Masukkan username customer yang ingin diubah: ";
-    cin.ignore();
-    getline(cin, username);
-
-    int indeks = cariCustomerByUsername(daftar, jumlah, username);
-
-    if (indeks == -1) {
-        cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
-        return;
-    }
-    cout << "Data customer ditemukan. Silakan masukkan data baru.\n";
-    cout << "Masukkan nama baru: ";
-    getline(cin, daftar[indeks].nama);
-    cout << "Masukkan username baru: ";
-    getline(cin, daftar[indeks].username);
-    cout << "Masukkan nomor HP baru: ";
-    getline(cin, daftar[indeks].no_hp);
-    cout << "Masukkan alamat baru: ";
-    getline(cin, daftar[indeks].alamat);
-    cout << "Data customer berhasil diperbarui.\n";
-}
-
-void hapus_customer(Customer daftar[], int &jumlah) {
-    if (jumlah == 0) {
-        cout << "Tidak ada data customer untuk dihapus.\n";
-        return;
-    }
-
-    string username;
-    cout << "Masukkan username customer yang ingin dihapus: ";
-    cin.ignore();
-    getline(cin, username);
-
-    int indeks = cariCustomerByUsername(daftar, jumlah, username);
-
-    if (indeks == -1) {
-        cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
-        return;
-    }
-
-    for (int i = indeks; i < jumlah - 1; i++) {
-        daftar[i] = daftar[i + 1];
-    }
-
-    jumlah--; 
-    cout << "Customer dengan username \"" << username << "\" berhasil dihapus.\n";
-}
-
-void tambah_hewan_ptr(hewan *daftar, int *jumlah)
-{
-    if (*jumlah >= limit_hewan)
-    {
-        cout << "Maaf, kapasitas penuh.\n";
-        return;
-    }
-
-int id_input;
-bool id_unik;
-
-do {
-    id_unik = true;
-    cout << "Masukkan ID Hewan (angka): ";
-    cin >> id_input;
-
-    if (cin.fail()) {
-        cout << "Input tidak valid! ID harus berupa angka.\n";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        id_unik = false;
-        continue;
-    }
-
-    for (int i = 0; i < *jumlah; i++) {
-        if (daftar[i].id == id_input) {
-            cout << "ID sudah digunakan. Masukkan ID lain.\n";
-            id_unik = false;
-            break;
-        }
-    }
-} while (!id_unik);
-
-    daftar[*jumlah].id = id_input;
-    cout << "Masukkan Nama Hewan: ";
-    cin >> daftar[*jumlah].nama;
-    cout << "Masukkan jenis hewan: ";
-    cin >> daftar[*jumlah].jenis;
-    cout << "Masukkan ras hewan: ";
-    cin >> daftar[*jumlah].ras;
-    while (true) {
-        cin >> daftar[*jumlah].umur;
-        
-        if (cin.fail()) { 
-            cout << "Input tidak valid! Harap masukkan angka untuk umur.\n";
-            cin.clear(); 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  
-            cout << "Masukkan Umur Hewan: ";
-            continue; 
-        }
-        
-        if (daftar[*jumlah].umur < 0) {  
-            cout << "Umur tidak boleh negatif. Masukkan umur yang valid.\n";
-            cout << "Masukkan Umur Hewan: ";
-            continue; 
-        }
-        
-        break;  
-    }
-        cout << "Masukkan Jenis Perawatan Hewan: ";
-        cin >> daftar[*jumlah].perawatan;
-        cout << "Masukkan Tanggal Reservasi: ";
-        cin.ignore();
-        getline(cin, daftar[*jumlah].reservasi);
-
-        (*jumlah)++;
-        cout << "Data hewan berhasil ditambahkan.\n";
-    }
-
 void selectionSort(hewan daftar[], int jumlah) {
     for (int i = 0; i < jumlah - 1; i++) {
         int minIdx = i;
@@ -494,7 +278,7 @@ int jumpSearch(hewan daftar[], int jumlah, int targetID) {
     return -1;
 }
 
-void tampilkan_hewan(hewan daftar[], int jumlah) {
+void tampilkanHewan(hewan daftar[], int jumlah) {
     if (jumlah == 0) {
         cout << "Tidak ada data hewan.\n";
         return;
@@ -583,7 +367,138 @@ void tampilkan_hewan(hewan daftar[], int jumlah) {
     }
 }
 
-void ubah_hewan_ptr(hewan *daftar, int jumlah) 
+void tampilkanData(Customer daftar_customer[], int jumlah_customer, hewan daftar_hewan[], int jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========= TAMPILKAN DATA =========";
+        cout << "\n1. Tampilkan Data Customer";
+        cout << "\n2. Tampilkan Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true; 
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        }
+
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        tampilkanCustomer(daftar_customer, jumlah_customer);
+    } else if (pilihan == 2) {
+        tampilkanHewan(daftar_hewan, jumlah_hewan);
+    }
+}
+
+void tambahHewan_ptr(hewan *daftar, int *jumlah)
+{
+    if (*jumlah >= limit_hewan)
+    {
+        cout << "Maaf, kapasitas penuh.\n";
+        return;
+    }
+
+int id_input;
+bool id_unik;
+
+do {
+    id_unik = true;
+    cout << "Masukkan ID Hewan (angka): ";
+    cin >> id_input;
+
+    if (cin.fail()) {
+        cout << "Input tidak valid! ID harus berupa angka.\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        id_unik = false;
+        continue;
+    }
+
+    for (int i = 0; i < *jumlah; i++) {
+        if (daftar[i].id == id_input) {
+            cout << "ID sudah digunakan. Masukkan ID lain.\n";
+            id_unik = false;
+            break;
+        }
+    }
+} while (!id_unik);
+
+    daftar[*jumlah].id = id_input;
+    cout << "Masukkan Nama Hewan: ";
+    cin >> daftar[*jumlah].nama;
+    cout << "Masukkan jenis hewan: ";
+    cin >> daftar[*jumlah].jenis;
+    cout << "Masukkan ras hewan: ";
+    cin >> daftar[*jumlah].ras;
+    while (true) {
+        cin >> daftar[*jumlah].umur;
+        
+        if (cin.fail()) { 
+            cout << "Input tidak valid! Harap masukkan angka untuk umur.\n";
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  
+            cout << "Masukkan Umur Hewan: ";
+            continue; 
+        }
+        
+        if (daftar[*jumlah].umur < 0) {  
+            cout << "Umur tidak boleh negatif. Masukkan umur yang valid.\n";
+            cout << "Masukkan Umur Hewan: ";
+            continue; 
+        }
+        
+        break;  
+    }
+        cout << "Masukkan Jenis Perawatan Hewan: ";
+        cin >> daftar[*jumlah].perawatan;
+        cout << "Masukkan Tanggal Reservasi: ";
+        cin.ignore();
+        getline(cin, daftar[*jumlah].reservasi);
+
+        (*jumlah)++;
+        cout << "Data hewan berhasil ditambahkan.\n";
+    }
+
+void ubahCustomer(Customer daftar[], int jumlah) {
+    if (jumlah == 0) {
+        cout << "Tidak ada data customer untuk diubah.\n";
+        return;
+    }
+
+    string username;
+    cout << "Masukkan username customer yang ingin diubah: ";
+    cin.ignore();
+    getline(cin, username);
+
+    int indeks = cariCustomerByUsername(daftar, jumlah, username);
+
+    if (indeks == -1) {
+        cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
+        return;
+    }
+    cout << "Data customer ditemukan. Silakan masukkan data baru.\n";
+    cout << "Masukkan nama baru: ";
+    getline(cin, daftar[indeks].nama);
+    cout << "Masukkan username baru: ";
+    getline(cin, daftar[indeks].username);
+    cout << "Masukkan nomor HP baru: ";
+    getline(cin, daftar[indeks].no_hp);
+    cout << "Masukkan alamat baru: ";
+    getline(cin, daftar[indeks].alamat);
+    cout << "Data customer berhasil diperbarui.\n";
+}
+
+void ubahHewan_ptr(hewan *daftar, int jumlah) 
 {
     int id;
     cout << "Masukkan ID hewan yang ingin diubah: ";
@@ -622,7 +537,7 @@ void ubah_hewan_ptr(hewan *daftar, int jumlah)
             cin >> (daftar + i)->perawatan;
             ditemukan = true;
             cout << "Data hewan berhasil diperbarui.\n";
-            tampilkan_hewan(daftar, jumlah);
+            tampilkanHewan(daftar, jumlah);
             break;
         }
     }
@@ -631,7 +546,65 @@ void ubah_hewan_ptr(hewan *daftar, int jumlah)
         cout << "Hewan tidak ditemukan!\n";
 }
 
-void hapus_hewan_ptr(hewan *daftar, int *jumlah) 
+void ubahData(Customer daftar_customer[], int jumlah_customer, hewan daftar_hewan[], int jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========== UBAH DATA ==========";
+        cout << "\n1. Ubah Data Customer";
+        cout << "\n2. Ubah Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true;
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        ubahCustomer(daftar_customer, jumlah_customer);
+    } else if (pilihan == 2) {
+        ubahHewan_ptr(daftar_hewan, jumlah_hewan);
+    }
+}
+
+void hapusCustomer(Customer daftar[], int &jumlah) {
+    if (jumlah == 0) {
+        cout << "Tidak ada data customer untuk dihapus.\n";
+        return;
+    }
+
+    string username;
+    cout << "Masukkan username customer yang ingin dihapus: ";
+    cin.ignore();
+    getline(cin, username);
+
+    int indeks = cariCustomerByUsername(daftar, jumlah, username);
+
+    if (indeks == -1) {
+        cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
+        return;
+    }
+
+    for (int i = indeks; i < jumlah - 1; i++) {
+        daftar[i] = daftar[i + 1];
+    }
+
+    jumlah--; 
+    cout << "Customer dengan username \"" << username << "\" berhasil dihapus.\n";
+}
+
+void hapusHewan_ptr(hewan *daftar, int *jumlah) 
 {
     if (*jumlah == 0) {
         cout << "Tidak ada data hewan untuk dihapus.\n";
@@ -664,7 +637,7 @@ void hapus_hewan_ptr(hewan *daftar, int *jumlah)
 
     if (!ditemukan)
         cout << "Hewan dengan ID "<< id <<" tidak ditemukan\n";
-    tampilkan_hewan(daftar, *jumlah);
+    tampilkanHewan(daftar, *jumlah);
 }
 
 void sort_nama_ascending(hewan *daftar, int jumlah) // masukkan ke dalam tampilkanHewan() & tampilkanCustomer()
@@ -712,6 +685,38 @@ void sort_jenis_ascending(hewan *daftar, int jumlah) // ubah sorting beradasarka
     cout << "Data berhasil diurutkan berdasarkan Jenis Hewan (A-Z).\n";
 }
 
+void hapusData(Customer daftar_customer[], int &jumlah_customer, hewan daftar_hewan[], int *jumlah_hewan) {
+    int pilihan;
+    bool valid = false;
+
+    do {
+        cout << "\n========== HAPUS DATA ==========";
+        cout << "\n1. Hapus Data Customer";
+        cout << "\n2. Hapus Data Hewan";
+        cout << "\nPilih (1/2): ";
+
+        if (cin >> pilihan) {
+            if (pilihan == 1 || pilihan == 2) {
+                valid = true;
+            } else {
+                cout << "Pilihan hanya 1 atau 2!\n";
+            }
+        } else {
+            cout << "Input tidak valid! Masukkan angka saja.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (!valid);
+
+    cin.ignore(); 
+
+    if (pilihan == 1) {
+        hapusCustomer(daftar_customer, jumlah_customer);
+    } else if (pilihan == 2) {
+        hapusHewan_ptr(daftar_hewan, jumlah_hewan);
+    }
+}
+
 // buat fungsi tambah data
 // buat fungsi tambah data customer
 // buat fungsi tampilkan data
@@ -727,140 +732,135 @@ void sort_jenis_ascending(hewan *daftar, int jumlah) // ubah sorting beradasarka
 // buat tampilan menu pengguna
 // pastikan tiap tahap disertai error handling !!
 
-int main()
-{
-    string username, password;
-    bool login = false;
-    bool ADMIN = false;
-    int percobaan_login = 0;
+int main() {
+    while (true) { 
+        string username, password;
+        bool login = false;
+        int percobaan_login = 0;
+        int pilih;
 
-    int pilih;
+        while (true) {
+            cout << "\n=============================\n";
+            cout << "|         MENU LOGIN        |\n";
+            cout << "=============================\n";
+            cout << "| 1. Registrasi             |\n";
+            cout << "| 2. Login                  |\n";
+            cout << "| 3. Keluar                 |\n";
+            cout << "=============================\n";
+            cout << "Pilih: ";
+            cin >> pilih;
+            cin.ignore();
 
-    while (true)
-    {
-        cout << "\n=============================\n";
-        cout << "|         MENU LOGIN        |\n";
-        cout << "=============================\n";
-        cout << "| 1. Registrasi             |\n";
-        cout << "| 2. Login                  |\n";
-        cout << "| 3. Keluar                 |\n";
-        cout << "=============================\n";
-        cout << "Pilih: ";
-        cin >> pilih;
+            if (pilih == 1) {
+                registrasi();
+            } else if (pilih == 2) {
+                while (percobaan_login < 3 && !login) {
+                    cout << "Masukkan Username : ";
+                    getline(cin, username);
+                    cout << "Masukkan Password : ";
+                    getline(cin, password);
 
-        cin.ignore();
+                    if (username.empty() || password.empty()) {
+                        cout << "\nUsername dan password tidak boleh kosong.\n";
+                        percobaan_login++;
+                    } else if (loginUser(username, password)) {
+                        login = true;
+                        if (username == "pawpatrol" && password == "bayardulu") {
+                            welcomeMessage(username, "admin");
 
-        if (pilih == 1)
-        {
-            registrasi();
-        }
-        else if (pilih == 2)
-        {
-            while (percobaan_login < 3 && !login)
-            {
-                cout << "Masukkan Username : ";
-                getline(cin, username);
-                cout << "Masukkan Password : ";
-                getline(cin, password);
+                            while (true) {
+                                cout << "\n=============================\n";
+                                cout << "|         MENU ADMIN         |\n";
+                                cout << "=============================\n";
+                                cout << "| 1. Tampilkan Data          |\n";
+                                cout << "| 2. Menambahkan Data Hewan  |\n";
+                                cout << "| 3. Mengubah Data           |\n";
+                                cout << "| 4. Menghapus Data          |\n";
+                                cout << "| 5. Tampilkan Laporan       |\n";
+                                cout << "| 6. Kembali ke Menu Login  |\n";
+                                cout << "=============================\n";
+                                cout << "Pilih (1-6): ";
 
-                if (username == "" || password == "")
-                {
-                    cout << "Username dan password tidak boleh kosong.\n";
-                    percobaan_login++;
+                                int pilihanAdmin;
+                                cin >> pilihanAdmin;
+                                cin.ignore();
+
+                                switch (pilihanAdmin) {
+                                    case 1:
+                                        tampilkanData(daftar_customer, jumlah_customer, daftar_hewan, jumlah_hewan);
+                                        break;
+                                    case 2:
+                                        tambahHewan_ptr(daftar_hewan, &jumlah_hewan);
+                                        break;
+                                    case 3:
+                                        ubahData(daftar_customer, jumlah_customer, daftar_hewan, jumlah_hewan);
+                                        break;
+                                    case 4:
+                                        hapusData(daftar_customer, jumlah_customer, daftar_hewan, &jumlah_hewan);
+                                        break;
+                                    case 5:
+                                        cout << "\nFitur laporan belum tersedia. Akan ditambahkan nanti.\n";
+                                        break;
+                                    case 6:
+                                        cout << "\nKembali ke menu login\n";
+                                        break;
+                                    default:
+                                        cout << "\nPilihan tidak valid. Masukkan angka 1 - 6.\n";
+                                }   
+                                if (pilihanAdmin == 6) break;
+                            }
+                        } else {
+                            welcomeMessage(username, "pengguna");
+                
+                            while (true) {
+                                cout << "\n=============================\n";
+                                cout << "|         MENU PENGGUNA       |\n";
+                                cout << "=============================\n";
+                                cout << "| 1. Tampilkan Data Hewan    |\n";
+                                cout << "| 2. Menambah Data Hewan     |\n";
+                                cout << "| 3. Kembali                 |\n";
+                                cout << "=============================\n";
+                                cout << "Pilih (1-3): ";
+        
+                                int pilihanPengguna;
+                                cin >> pilihanPengguna;
+
+                                switch (pilihanPengguna) {
+                                    case 1:
+                                        tampilkanHewan(daftar_hewan, jumlah_hewan);
+                                        break;
+                                    case 2:
+                                        tambahHewan_ptr(daftar_hewan, &jumlah_hewan);
+                                        break;
+                                    case 3:
+                                        cout << "\nKembali ke menu login\n";
+                                        break;
+                                    default:
+                                        cout << "\nPilihan tidak valid. Masukkan angka 1 - 6.\n";
+                                        break;
+                                }
+                                if (pilihanPengguna == 3) break; 
+                            }
+                        }
+                        break;
+                    } else {
+                        percobaan_login++;
+                        cout << "\nUsername atau password salah.\n";
+                    }
                 }
-                else if (username == "pawpatrol" && password == "bayardulu")
-                {
-                    login = true;
-                    ADMIN = true;
-                    welcomeMessage(username, "admin");
-                    break;
+
+                if (!login) {
+                    cout << "\nTerlalu banyak percobaan login. Program dihentikan.\n";
+                    return 0; 
                 }
-                else if (loginUser(username, password))
-                {
-                    login = true;
-                    welcomeMessage(username, "pengguna");
-                    break;
-                }
-                else
-                {
-                    percobaan_login++;
-                    cout << "Username atau password salah, silahkan coba lagi.\n\n";
-                }
+                break; 
+            } else if (pilih == 3) {
+                cout << "\nTerima kasih telah menggunakan program pet shop ini.\n";
+                return 0; 
+            } else {
+                cout << "\nInput tidak valid.\n";
             }
-            if (!login)
-            {
-                cout << "Terlalu banyak percobaan login. Program dihentikan.\n";
-                return 0;
-            }
-
-            break;
-        }
-        else if (pilih == 3)
-        {
-            cout << "Terima kasih telah menggunakan program pet shop ini\n";
-            return 0;
-        }
-        else
-        {
-            cout << "Input tidak valid.\n";
         }
     }
-
-    while (true) // belum diperbarui
-    {
-        cout << "\n======================";
-        cout << "\n|    MENU PET SHOP   |";
-        cout << "\n=======================";
-        cout << "\n| 1. TAMBAH HEWAN     |";
-        cout << "\n| 2. TAMPILKAN HEWAN  |";
-        cout << "\n| 3. UBAH HEWAN       |";
-        cout << "\n| 4. HAPUS HEWAN      |";
-        cout << "\n| 5. SORTING DATA     |";
-        cout << "\n| 6. KELUAR PROGRAM   |";
-        cout << "\n=======================";
-        cout << "\nPilih (1/2/3/4/5/6): ";
-        int pilihan;
-        cin >> pilihan;
-
-        switch (pilihan)
-        {
-        case 1:
-            tambah_hewan_ptr(daftar_hewan, &jumlah_hewan);
-            break;
-        case 2:
-            tampilkan_hewan(daftar_hewan, jumlah_hewan);
-            break;
-        case 3:
-            ubah_hewan_ptr(daftar_hewan, jumlah_hewan);
-            break;
-        case 4:
-            hapus_hewan_ptr(daftar_hewan, &jumlah_hewan);
-            break;
-        case 5: // masukkan sorting ke tampilkan data
-            int pilihan_sort;
-            cout << "\n== PILIHAN SORTING ==";
-            cout << "\n1. Berdasarkan Nama (A-Z)";
-            cout << "\n2. Berdasarkan Umur (Tua ke Muda)";
-            cout << "\n3. Berdasarkan Jenis (A-Z)";
-            cout << "\nPilih metode sorting (1/2/3): ";
-            cin >> pilihan_sort;
-
-            if (pilihan_sort == 1)
-                sort_nama_ascending(daftar_hewan, jumlah_hewan);
-            else if (pilihan_sort == 2)
-                sort_umur_descending(daftar_hewan, jumlah_hewan);
-            else if (pilihan_sort == 3)
-                sort_jenis_ascending(daftar_hewan, jumlah_hewan);
-            else
-                cout << "Pilihan sorting tidak valid.\n";
-            break;
-        case 6:
-            cout << "Terima kasih telah menggunakan program petshop ini.\n";
-            return 0;
-        default:
-            cout << "Pilihan tidak valid.\n";
-        }
-    }
-
     return 0;
 }
