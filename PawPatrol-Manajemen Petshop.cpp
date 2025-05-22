@@ -144,76 +144,37 @@ void registrasi()
 
         while (!username_valid)
         {
-            cout << "Masukkan Username: ";
-            cin >> username_input;
+            validasiString(&username_input, "Masukkan Username: ");
 
-            if (username_input == "")
+            bool sudah_ada = false;
+            for (int i = 0; i < jumlah_user; i++)
             {
-                cout << "Username tidak boleh kosong.\n";
+                if (daftar_user[i].username == username_input)
+                {
+                    sudah_ada = true;
+                    break;
+                }
+            }
+
+            if (sudah_ada)
+            {
+                cout << "Username sudah terdaftar. Silakan pilih username yang lain.\n";
             }
             else
             {
-                bool sudah_ada = false;
-                for (int i = 0; i < jumlah_user; i++)
-                {
-                    if (daftar_user[i].username == username_input)
-                    {
-                        sudah_ada = true;
-                        break;
-                    }
-                }
-                if (sudah_ada)
-                {
-                    cout << "Username sudah terdaftar. Silahkan pilih username yang lain.\n";
-                }
-                else
-                {
-                    username_valid = true;
-                }
+                username_valid = true;
             }
         }
 
         daftar_user[jumlah_user].username = username_input;
 
         string pass_input;
-        cout << "Masukkan Password: ";
-        cin >> pass_input;
-        while (pass_input == "")
-        {
-            cout << "password tidak boleh kosong.\n";
-            cout << "Masukkan Password: ";
-            cin >> pass_input;
-        }
+        validasiString(&pass_input, "Masukkan Password: ");
         daftar_user[jumlah_user].password = pass_input;
 
-        cin.ignore();
-        cout << "Masukkan Nama Lengkap: ";
-        getline(cin, daftar_user[jumlah_user].data_profil.nama_lengkap);
-
-        cout << "Masukkan Alamat: ";
-        getline(cin, daftar_user[jumlah_user].data_profil.alamat);
-
-        string Nomor_hp;
-        bool nohp_valid = false;
-
-        while (!nohp_valid)
-        {
-            cout << "Masukkan No HP : ";
-            cin >> Nomor_hp;
-
-            if (cin.fail())
-            {
-                cout << "Input tidak valid! No HP harus angka.\n";
-                cin.clear();
-                cin.ignore();
-            }
-            else
-            {
-                daftar_user[jumlah_user].data_profil.no_hp = Nomor_hp;
-                nohp_valid = true;
-                cin.ignore();
-            }
-        }
+        validasiString(&daftar_user[jumlah_user].data_profil.nama_lengkap, "Masukkan Nama Lengkap: ");
+        validasiString(&daftar_user[jumlah_user].data_profil.alamat, "Masukkan Alamat: ");
+        validasiString(&daftar_user[jumlah_user].data_profil.no_hp, "Masukkan No HP: ");
 
         daftar_customer[jumlah_customer].id = jumlah_customer + 1;
         daftar_customer[jumlah_customer].nama = daftar_user[jumlah_user].data_profil.nama_lengkap;
