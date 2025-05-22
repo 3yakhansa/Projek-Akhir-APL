@@ -2,7 +2,7 @@
 #include <cmath>
 #include <limits>
 #include <iomanip>
-#include <sstream> 
+#include <sstream>
 using namespace std;
 
 const int limit_user = 50;
@@ -50,8 +50,8 @@ struct hewan
     dataReservasi reservasi;
     int id;
     int umur;
+    string username_pengguna;
 };
-
 
 Customer daftar_customer[limit_user];
 int jumlah_customer = 0;
@@ -59,51 +59,41 @@ int jumlah_customer = 0;
 hewan daftar_hewan[limit_hewan];
 int jumlah_hewan = 0;
 
-void validasiString(string* target, const string& prompt) {
-    while (true) {
-        cout << prompt;
-        getline(cin, *target);
-
-        if (target->empty()) {
-            cout << "Error: Input tidak boleh kosong, silakan coba lagi.\n";
-        } else {
-            break;
-        }
+void validasiString(string *target, const string &prompt)
+{
+    cout << prompt;
+    getline(cin, *target);
+    if (target->empty())
+    {
+        cout << "Error: Input tidak boleh kosong, silahkan coba lagi.\n";
+        validasiString(target, prompt);
     }
 }
 
-void validasiInt(int* target, const string& prompt) {
+void validasiInt(int *target, const string &prompt)
+{
     string input;
-    while (true) {
-        try {
-            cout << prompt;
-            getline(cin, input); 
+    cout << prompt;
+    getline(cin, input);
 
-            if (input.empty()) {
-                throw invalid_argument("Input tidak boleh kosong!");
-                break;
-            }
+    if (input.empty())
+    {
+        cout << "Error: Input tidak boleh kosong!\n";
+        validasiInt(target, prompt);
+        return;
+    }
 
-            stringstream ss(input);
-            int temp;
-            ss >> temp;
-
-            if (ss.fail() || !ss.eof()) {
-                throw invalid_argument("Input harus berupa angka bulat!");
-                break;
-            }
-
-            if (temp < 0) {
-                throw runtime_error("Input tidak boleh negatif!");
-                break;
-            }
-
-            *target = temp;  
-            break;
-        } catch (const exception& e) {
-            cout << "Error: " << e.what() << endl;
+    for (char c : input)
+    {
+        if (!isdigit(c))
+        {
+            cout << "Error: Input harus berupa angka bulat!.\n";
+            validasiInt(target, prompt);
+            return;
         }
     }
+
+    *target = stoi(input);
 }
 
 bool loginUser(string username, string password)
@@ -206,29 +196,29 @@ int cariCustomerByUsername(Customer daftar[], int jumlah, string username)
 }
 
 void tampilkanSemuaCustomer(Customer daftar[], int jumlah)
+{
+    cout << "\n========= DAFTAR CUSTOMER =========\n";
+    cout << left
+         << setw(5) << "No."
+         << setw(20) << "Nama"
+         << setw(15) << "Username"
+         << setw(15) << "No HP"
+         << setw(30) << "Alamat" << endl;
+
+    cout << string(85, '-') << endl;
+
+    for (int i = 0; i < jumlah; i++)
     {
-        cout << "\n========= DAFTAR CUSTOMER =========\n";
         cout << left
-             << setw(5) << "No."
-             << setw(20) << "Nama"
-             << setw(15) << "Username"
-             << setw(15) << "No HP"
-             << setw(30) << "Alamat" << endl;
-
-        cout << string(85, '-') << endl;
-
-        for (int i = 0; i < jumlah; i++)
-        {
-            cout << left
-                 << setw(5) << daftar[i].id
-                 << setw(20) << daftar[i].nama
-                 << setw(15) << daftar[i].username
-                 << setw(15) << daftar[i].no_hp
-                 << setw(30) << daftar[i].alamat << endl;
-        }
-
-        cout << string(85, '-') << endl;
+             << setw(5) << daftar[i].id
+             << setw(20) << daftar[i].nama
+             << setw(15) << daftar[i].username
+             << setw(15) << daftar[i].no_hp
+             << setw(30) << daftar[i].alamat << endl;
     }
+
+    cout << string(85, '-') << endl;
+}
 
 void tampilkanCustomer(Customer daftar[], int jumlah)
 {
@@ -289,7 +279,6 @@ void tampilkanCustomer(Customer daftar[], int jumlah)
     }
 }
 
-
 void selectionSort(hewan daftar[], int jumlah)
 {
     for (int i = 0; i < jumlah - 1; i++)
@@ -332,33 +321,33 @@ int jumpSearch(hewan daftar[], int jumlah, int targetID)
 }
 
 void tampilkanSemuaHewan(hewan daftar[], int jumlah)
+{
+    cout << "\n========= DATA HEWAN =========\n";
+    cout << left
+         << setw(5) << "ID"
+         << setw(15) << "Nama"
+         << setw(10) << "Jenis"
+         << setw(15) << "Ras"
+         << setw(8) << "Umur"
+         << setw(15) << "Perawatan"
+         << setw(20) << "Tanggal Reservasi" << endl;
+
+    cout << string(88, '-') << endl;
+
+    for (int i = 0; i < jumlah; i++)
     {
-        cout << "\n========= DATA HEWAN =========\n";
         cout << left
-             << setw(5) << "ID"
-             << setw(15) << "Nama"
-             << setw(10) << "Jenis"
-             << setw(15) << "Ras"
-             << setw(8) << "Umur"
-             << setw(15) << "Perawatan"
-             << setw(20) << "Tanggal Reservasi" << endl;
-
-        cout << string(88, '-') << endl;
-
-        for (int i = 0; i < jumlah; i++)
-        {
-            cout << left
-                 << setw(5) << daftar[i].id
-                 << setw(15) << daftar[i].nama
-                 << setw(10) << daftar[i].jenis
-                 << setw(15) << daftar[i].ras
-                 << setw(8) << (to_string(daftar[i].umur) + " th")
-                 << setw(15) << daftar[i].perawatan
-                 << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun <<  endl;
-        }
-
-        cout << string(88, '-') << endl;
+             << setw(5) << daftar[i].id
+             << setw(15) << daftar[i].nama
+             << setw(10) << daftar[i].jenis
+             << setw(15) << daftar[i].ras
+             << setw(8) << (to_string(daftar[i].umur) + " th")
+             << setw(15) << daftar[i].perawatan
+             << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
     }
+
+    cout << string(88, '-') << endl;
+}
 
 void tampilkanHewan(hewan daftar[], int jumlah)
 {
@@ -455,29 +444,39 @@ void tampilkanData(Customer daftar_customer[], int jumlah_customer, hewan daftar
     }
 }
 
-void tambahHewan_ptr(hewan *daftar, int *jumlah) {
-    while (true) {
-        try {
-            if (*jumlah >= limit_hewan) {
+void tambahHewan_ptr(hewan *daftar, int *jumlah, string username_pengguna)
+{
+    while (true)
+    {
+        try
+        {
+            if (*jumlah >= limit_hewan)
+            {
                 cout << "Maaf, kapasitas penuh.\n";
                 return;
             }
 
-            while (true) {
+            while (true)
+            {
                 int id_input;
                 validasiInt(&id_input, "Masukkan ID Hewan (angka): ");
 
                 bool id_unik = true;
-                for (int i = 0; i < *jumlah; i++) {
-                    if (daftar[i].id == id_input) {
+                for (int i = 0; i < *jumlah; i++)
+                {
+                    if (daftar[i].id == id_input)
+                    {
                         id_unik = false;
                         break;
                     }
                 }
 
-                if (!id_unik) {
+                if (!id_unik)
+                {
                     cout << "Error: ID sudah digunakan. Masukkan ID lain.\n";
-                } else {
+                }
+                else
+                {
                     daftar[*jumlah].id = id_input;
                     break;
                 }
@@ -492,10 +491,14 @@ void tambahHewan_ptr(hewan *daftar, int *jumlah) {
             validasiInt(&daftar[*jumlah].reservasi.bulan, "Masukkan Bulan Reservasi: ");
             validasiInt(&daftar[*jumlah].reservasi.tahun, "Masukkan Tahun Reservasi: ");
 
+            daftar[*jumlah].username_pengguna = username_pengguna;
+
             (*jumlah)++;
             cout << "Data hewan berhasil ditambahkan.\n";
             break;
-        } catch (const exception& e) {
+        }
+        catch (const exception &e)
+        {
             cout << "Terjadi kesalahan saat menambahkan data: " << e.what() << endl;
             cout << "Silakan coba lagi dari awal.\n";
         }
@@ -510,15 +513,30 @@ void ubahCustomer(Customer daftar[], int jumlah)
         return;
     }
 
-    tampilkanSemuaCustomer(daftar, jumlah);
+    cout << "\n========= DAFTAR COSTUMER =========\n";
+    cout << left
+         << setw(5) << "No."
+         << setw(20) << "Nama"
+         << setw(15) << "Username"
+         << setw(15) << "No HP"
+         << setw(30) << "Alamat" << endl;
+    cout << string(85, '-') << endl;
+
+    for (int i = 0; i < jumlah; i++)
+    {
+        cout << left
+             << setw(5) << daftar[i].id
+             << setw(20) << daftar[i].nama
+             << setw(15) << daftar[i].username
+             << setw(15) << daftar[i].no_hp
+             << setw(30) << daftar[i].alamat << endl;
+    }
+    cout << string(85, '-') << endl;
 
     string username;
-    cout << "Masukkan username customer yang ingin diubah: ";
-    cin.ignore();
-    getline(cin, username);
+    validasiString(&username, "Masukkan username costumer yang ingin diubah: ");
 
     int indeks = cariCustomerByUsername(daftar, jumlah, username);
-
     if (indeks == -1)
     {
         cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
@@ -533,6 +551,7 @@ void ubahCustomer(Customer daftar[], int jumlah)
     validasiString(&daftar[indeks].alamat, "Masukkan alamat baru: ");
 
     cout << "Data customer berhasil diperbarui.\n";
+
     tampilkanSemuaCustomer(daftar, jumlah);
 }
 
@@ -576,7 +595,8 @@ void ubahHewan_ptr(hewan *daftar, int jumlah)
 void ubahData(Customer daftar_customer[], int jumlah_customer, hewan daftar_hewan[], int jumlah_hewan)
 {
     int pilihan;
-    do {
+    do
+    {
         cout << "\n========== UBAH DATA ==========";
         cout << "\n1. Ubah Data Customer";
         cout << "\n2. Ubah Data Hewan";
@@ -584,7 +604,8 @@ void ubahData(Customer daftar_customer[], int jumlah_customer, hewan daftar_hewa
 
         validasiInt(&pilihan, ">> ");
 
-        if (pilihan != 1 && pilihan != 2) {
+        if (pilihan != 1 && pilihan != 2)
+        {
             cout << "Pilihan hanya 1 atau 2!\n";
         }
     } while (pilihan != 1 && pilihan != 2);
@@ -606,14 +627,31 @@ void hapusCustomer(Customer daftar[], int &jumlah)
         cout << "Tidak ada data customer untuk dihapus.\n";
         return;
     }
+    cout << "\n========= DATA CUSTOMER =========\n";
+    cout << left
+         << setw(5) << "ID"
+         << setw(20) << "Nama"
+         << setw(15) << "Username"
+         << setw(15) << "No HP"
+         << setw(30) << "Alamat" << endl;
 
-    tampilkanSemuaCustomer(daftar, jumlah);
+    cout << string(85, '-') << endl;
+
+    for (int i = 0; i < jumlah; i++)
+    {
+        cout << left
+             << setw(5) << daftar[i].id
+             << setw(20) << daftar[i].nama
+             << setw(15) << daftar[i].username
+             << setw(15) << daftar[i].no_hp
+             << setw(30) << daftar[i].alamat << endl;
+    }
+    cout << string(85, '-') << endl;
 
     string username;
     validasiString(&username, "Masukkan username customer yang ingin dihapus: ");
 
     int indeks = cariCustomerByUsername(daftar, jumlah, username);
-
     if (indeks == -1)
     {
         cout << "Customer dengan username \"" << username << "\" tidak ditemukan.\n";
@@ -627,6 +665,7 @@ void hapusCustomer(Customer daftar[], int &jumlah)
 
     jumlah--;
     cout << "Customer dengan username \"" << username << "\" berhasil dihapus.\n";
+
     tampilkanSemuaCustomer(daftar, jumlah);
 }
 
@@ -667,7 +706,7 @@ void hapusHewan_ptr(hewan *daftar, int *jumlah)
     tampilkanSemuaHewan(daftar, *jumlah);
 }
 
-void sort_nama_ascending(hewan *daftar, int jumlah) 
+void sort_nama_ascending(hewan *daftar, int jumlah)
 {
     for (int i = 0; i < jumlah - 1; i++)
     {
@@ -682,7 +721,7 @@ void sort_nama_ascending(hewan *daftar, int jumlah)
     cout << "Data berhasil diurutkan berdasarkan Nama (A-Z).\n";
 }
 
-void sort_umur_descending(hewan *daftar, int jumlah) 
+void sort_umur_descending(hewan *daftar, int jumlah)
 {
     for (int i = 0; i < jumlah - 1; i++)
     {
@@ -697,7 +736,7 @@ void sort_umur_descending(hewan *daftar, int jumlah)
     cout << "Data berhasil diurutkan berdasarkan Umur ( dari yang terbesar ke yang terkecil).\n";
 }
 
-void sort_jenis_ascending(hewan *daftar, int jumlah) 
+void sort_jenis_ascending(hewan *daftar, int jumlah)
 {
     for (int i = 0; i < jumlah - 1; i++)
     {
@@ -719,7 +758,7 @@ void hapusData(Customer daftar_customer[], int &jumlah_customer, hewan daftar_he
     cout << "\n========== HAPUS DATA ==========";
     cout << "\n1. Hapus Data Customer";
     cout << "\n2. Hapus Data Hewan";
-    
+
     while (true)
     {
         validasiInt(&pilihan, "\nPilih (1/2): ");
@@ -743,7 +782,8 @@ void hapusData(Customer daftar_customer[], int &jumlah_customer, hewan daftar_he
     }
 }
 
-void laporanHewan(hewan *daftar, int jumlah) {
+void laporanHewan(hewan *daftar, int jumlah)
+{
     cout << "\n--- LAPORAN HEWAN ---\n";
 
     int tgl, bln, thn;
@@ -770,10 +810,12 @@ void laporanHewan(hewan *daftar, int jumlah) {
     cout << string(77, '-') << endl;
 
     int total = 0;
-    for (int i = 0; i < jumlah; i++) {
+    for (int i = 0; i < jumlah; i++)
+    {
         if (daftar[i].reservasi.tanggal == tgl &&
             daftar[i].reservasi.bulan == bln &&
-            daftar[i].reservasi.tahun == thn) {
+            daftar[i].reservasi.tahun == thn)
+        {
 
             cout << left << setw(5) << daftar[i].id
                  << setw(15) << daftar[i].nama
@@ -783,30 +825,35 @@ void laporanHewan(hewan *daftar, int jumlah) {
                  << setw(15) << daftar[i].perawatan
                  << setw(2) << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
 
-
             bool jenisAda = false;
-            for (int j = 0; j < jenisCount; j++) {
-                if (daftar[i].jenis == jenisList[j]) {
+            for (int j = 0; j < jenisCount; j++)
+            {
+                if (daftar[i].jenis == jenisList[j])
+                {
                     jumlahJenis[j]++;
                     jenisAda = true;
                     break;
                 }
             }
-            if (!jenisAda) {
+            if (!jenisAda)
+            {
                 jenisList[jenisCount] = daftar[i].jenis;
                 jumlahJenis[jenisCount]++;
                 jenisCount++;
             }
 
             bool perawatanAda = false;
-            for (int p = 0; p < perawatanCount; p++) {
-                if (daftar[i].perawatan == perawatanList[p]) {
+            for (int p = 0; p < perawatanCount; p++)
+            {
+                if (daftar[i].perawatan == perawatanList[p])
+                {
                     jumlahPerawatan[p]++;
                     perawatanAda = true;
                     break;
                 }
             }
-            if (!perawatanAda) {
+            if (!perawatanAda)
+            {
                 perawatanList[perawatanCount] = daftar[i].perawatan;
                 jumlahPerawatan[perawatanCount]++;
                 perawatanCount++;
@@ -818,24 +865,73 @@ void laporanHewan(hewan *daftar, int jumlah) {
 
     cout << "\nTotal hewan ditemukan: " << total << endl;
 
-    // Rekap jenis
-    if (jenisCount > 0) {
+    if (jenisCount > 0)
+    {
         cout << "\n>> Jumlah Berdasarkan Jenis Hewan:\n";
-        for (int i = 0; i < jenisCount; i++) {
+        for (int i = 0; i < jenisCount; i++)
+        {
             cout << "- " << jenisList[i] << ": " << jumlahJenis[i] << endl;
         }
     }
 
-    if (perawatanCount > 0) {
+    if (perawatanCount > 0)
+    {
         cout << "\n>> Jumlah Berdasarkan Jenis Perawatan:\n";
-        for (int i = 0; i < perawatanCount; i++) {
+        for (int i = 0; i < perawatanCount; i++)
+        {
             cout << "- " << perawatanList[i] << ": " << jumlahPerawatan[i] << endl;
         }
     }
 
-    if (total == 0) {
+    if (total == 0)
+    {
         cout << "\nTidak ada data yang sesuai dengan tanggal tersebut.\n";
     }
+}
+
+void tampilkanHewanByUser(hewan *daftar, int jumlah, string username_pengguna)
+{
+    cout << "\n========= DATA HEWANKU =========\n";
+    cout << left
+         << setw(5) << "ID"
+         << setw(15) << "Nama"
+         << setw(10) << "Jenis"
+         << setw(15) << "Ras"
+         << setw(8) << "Umur"
+         << setw(15) << "Perawatan"
+         << setw(15) << "Tanggal Reservasi\n";
+
+    cout << string(90, '-') << endl;
+
+    bool adaData = false;
+
+    for (int i = 0; i < jumlah; i++)
+    {
+        if (daftar[i].username_pengguna == username_pengguna)
+        {
+            ostringstream tanggal;
+            tanggal << daftar[i].reservasi.tanggal << "/"
+                    << daftar[i].reservasi.bulan << "/"
+                    << daftar[i].reservasi.tahun;
+
+            cout << left
+                 << setw(5) << daftar[i].id
+                 << setw(15) << daftar[i].nama
+                 << setw(10) << daftar[i].jenis
+                 << setw(15) << daftar[i].ras
+                 << setw(8) << daftar[i].umur
+                 << setw(15) << daftar[i].perawatan
+                 << setw(20) << tanggal.str() << endl;
+            adaData = true;
+        }
+    }
+
+    if (!adaData)
+    {
+        cout << "Tidak ada data hewan yang dimiliki oleh Anda.\n";
+    }
+
+    cout << string(90, '-') << endl;
 }
 
 int main()
@@ -906,7 +1002,7 @@ int main()
                                     tampilkanData(daftar_customer, jumlah_customer, daftar_hewan, jumlah_hewan);
                                     break;
                                 case 2:
-                                    tambahHewan_ptr(daftar_hewan, &jumlah_hewan);
+                                    tambahHewan_ptr(daftar_hewan, &jumlah_hewan, username);
                                     break;
                                 case 3:
                                     ubahData(daftar_customer, jumlah_customer, daftar_hewan, jumlah_hewan);
@@ -944,14 +1040,15 @@ int main()
 
                                 int pilihanPengguna;
                                 cin >> pilihanPengguna;
+                                cin.ignore();
 
                                 switch (pilihanPengguna)
                                 {
                                 case 1:
-                                    tampilkanHewan(daftar_hewan, jumlah_hewan);
+                                    tampilkanHewanByUser(daftar_hewan, jumlah_hewan, username);
                                     break;
                                 case 2:
-                                    tambahHewan_ptr(daftar_hewan, &jumlah_hewan);
+                                    tambahHewan_ptr(daftar_hewan, &jumlah_hewan, username);
                                     break;
                                 case 3:
                                     cout << "\nKembali ke menu login\n";
