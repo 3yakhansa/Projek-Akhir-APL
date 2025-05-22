@@ -746,19 +746,20 @@ void hapusData(Customer daftar_customer[], int &jumlah_customer, hewan daftar_he
 void laporanHewan(hewan *daftar, int jumlah) {
     cout << "\n--- LAPORAN HEWAN ---\n";
 
-
     int tgl, bln, thn;
     validasiInt(&tgl, "Masukkan Tanggal Reservasi: ");
     validasiInt(&bln, "Masukkan Bulan Reservasi: ");
     validasiInt(&thn, "Masukkan Tahun Reservasi: ");
 
-    string jenis, perawatan;
-    cout << "Masukkan jenis hewan yang ingin dicari: ";
-    cin >> jenis;
-    cout << "Masukkan jenis perawatan yang ingin dicari: ";
-    cin >> perawatan;
+    string jenisList[100];
+    int jumlahJenis[100] = {0};
+    int jenisCount = 0;
 
-    cout << "\nLaporan Petshop Pawpatrol:\n";
+    string perawatanList[100];
+    int jumlahPerawatan[100] = {0};
+    int perawatanCount = 0;
+
+    cout << "\nLaporan Petshop Pawpatrol (Tanggal " << tgl << "/" << bln << "/" << thn << "):\n";
     cout << left << setw(5) << "ID"
          << setw(15) << "Nama"
          << setw(12) << "Jenis"
@@ -772,9 +773,7 @@ void laporanHewan(hewan *daftar, int jumlah) {
     for (int i = 0; i < jumlah; i++) {
         if (daftar[i].reservasi.tanggal == tgl &&
             daftar[i].reservasi.bulan == bln &&
-            daftar[i].reservasi.tahun == thn &&
-            daftar[i].jenis == jenis &&
-            daftar[i].perawatan == perawatan) {
+            daftar[i].reservasi.tahun == thn) {
 
             cout << left << setw(5) << daftar[i].id
                  << setw(15) << daftar[i].nama
@@ -783,13 +782,61 @@ void laporanHewan(hewan *daftar, int jumlah) {
                  << setw(6) << daftar[i].umur
                  << setw(15) << daftar[i].perawatan
                  << setw(2) << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
+
+
+            bool jenisAda = false;
+            for (int j = 0; j < jenisCount; j++) {
+                if (daftar[i].jenis == jenisList[j]) {
+                    jumlahJenis[j]++;
+                    jenisAda = true;
+                    break;
+                }
+            }
+            if (!jenisAda) {
+                jenisList[jenisCount] = daftar[i].jenis;
+                jumlahJenis[jenisCount]++;
+                jenisCount++;
+            }
+
+            bool perawatanAda = false;
+            for (int p = 0; p < perawatanCount; p++) {
+                if (daftar[i].perawatan == perawatanList[p]) {
+                    jumlahPerawatan[p]++;
+                    perawatanAda = true;
+                    break;
+                }
+            }
+            if (!perawatanAda) {
+                perawatanList[perawatanCount] = daftar[i].perawatan;
+                jumlahPerawatan[perawatanCount]++;
+                perawatanCount++;
+            }
+
             total++;
         }
     }
 
     cout << "\nTotal hewan ditemukan: " << total << endl;
-}
 
+    // Rekap jenis
+    if (jenisCount > 0) {
+        cout << "\n>> Jumlah Berdasarkan Jenis Hewan:\n";
+        for (int i = 0; i < jenisCount; i++) {
+            cout << "- " << jenisList[i] << ": " << jumlahJenis[i] << endl;
+        }
+    }
+
+    if (perawatanCount > 0) {
+        cout << "\n>> Jumlah Berdasarkan Jenis Perawatan:\n";
+        for (int i = 0; i < perawatanCount; i++) {
+            cout << "- " << perawatanList[i] << ": " << jumlahPerawatan[i] << endl;
+        }
+    }
+
+    if (total == 0) {
+        cout << "\nTidak ada data yang sesuai dengan tanggal tersebut.\n";
+    }
+}
 
 int main()
 {
