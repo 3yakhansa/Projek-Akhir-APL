@@ -16,13 +16,13 @@ void setColor(int color)
 
 void rainbowText(const string &text)
 {
-    int colors[] = {12, 14, 10, 9, 13, 11}; 
+    int colors[] = {12, 14, 10, 9, 13, 11};
     for (size_t i = 0; i < text.length(); ++i)
     {
         setColor(colors[i % 6]);
         cout << text[i];
     }
-    setColor(7); 
+    setColor(7);
 }
 
 const int limit_user = 50;
@@ -47,7 +47,7 @@ int jumlah_user = 0;
 
 struct Customer
 {
-    int id;
+    int Nomor;
     string nama;
     string username;
     string no_hp;
@@ -91,16 +91,16 @@ void showLoading()
         {
             if (j < i)
             {
-                setColor(colors[j % 6]); 
-                bar += "="; 
+                setColor(colors[j % 6]);
+                bar += "=";
             }
             else
             {
-                bar += " "; 
+                bar += " ";
             }
         }
         bar += "]";
-        setColor(7); 
+        setColor(7);
 
         cout << "\rMemuat data: " << bar << " ";
         setColor(colors[i % 6]);
@@ -208,8 +208,6 @@ void animasiRandomAnimal()
     }
 }
 
-
-
 void validasiString(string *target, const string &prompt)
 {
     cout << prompt;
@@ -260,7 +258,6 @@ void validasiDouble(double *target, const string &prompt)
     }
 }
 
-
 void validasiFloat(float *target, const string &prompt)
 {
     string input;
@@ -297,7 +294,6 @@ void validasiFloat(float *target, const string &prompt)
         validasiFloat(target, prompt);
     }
 }
-
 
 void validasiInt(int *target, const string &prompt)
 {
@@ -424,7 +420,7 @@ void registrasi()
         validasiString(&daftar_user[jumlah_user].data_profil.nama_lengkap, "Masukkan Nama Lengkap: ");
         validasiString(&daftar_user[jumlah_user].data_profil.alamat, "Masukkan Alamat: ");
         validasiString(&daftar_user[jumlah_user].data_profil.no_hp, "Masukkan No HP: ");
-        daftar_customer[jumlah_customer].id = jumlah_customer + 1;
+        daftar_customer[jumlah_customer].Nomor = jumlah_customer + 1;
         daftar_customer[jumlah_customer].nama = daftar_user[jumlah_user].data_profil.nama_lengkap;
         daftar_customer[jumlah_customer].username = username_input;
         daftar_customer[jumlah_customer].no_hp = daftar_user[jumlah_user].data_profil.no_hp;
@@ -455,23 +451,22 @@ int cariCustomerByUsername(Customer daftar[], int jumlah, string username)
     return -1;
 }
 
-
 void tampilkanSemuaCustomer(Customer daftar[], int jumlah)
 {
     cout << "\n========= DAFTAR CUSTOMER =========\n";
     cout << left
-    << setw(5) << "No."
-    << setw(20) << "Nama"
+         << setw(5) << "No."
+         << setw(20) << "Nama"
          << setw(15) << "Username"
          << setw(15) << "No HP"
          << setw(30) << "Alamat" << endl;
 
     cout << string(85, '-') << endl;
-    
+
     for (int i = 0; i < jumlah; i++)
     {
         cout << left
-        << setw(5) << daftar[i].id
+             << setw(5) << daftar[i].Nomor
              << setw(20) << daftar[i].nama
              << setw(15) << daftar[i].username
              << setw(15) << daftar[i].no_hp
@@ -488,14 +483,14 @@ void tampilkanCustomer(Customer daftar[], int jumlah)
         cout << "Tidak ada data customer.\n";
         return;
     }
-    
+
     cout << "\nIngin menampilkan:\n";
     cout << "1. Semua data customer\n";
     cout << "2. Cari berdasarkan username customer\n";
-    
+
     int pilihan;
     validasiInt(&pilihan, "Pilihan (1/2): ");
-    
+
     if (pilihan == 1)
     {
         tampilkanSemuaCustomer(daftar, jumlah);
@@ -504,41 +499,41 @@ void tampilkanCustomer(Customer daftar[], int jumlah)
     {
         string cariUsername;
         validasiString(&cariUsername, "Masukkan Username customer yang dicari: ");
-        
+
         int indeks = cariCustomerByUsername(daftar, jumlah, cariUsername);
-        
+
         if (indeks != -1)
         {
             cout << "\nData ditemukan:\n";
             cout << "\n========= DATA CUSTOMER =========\n";
             cout << left
-                 << setw(5) << "ID"
+                 << setw(5) << "No."
                  << setw(20) << "Nama"
                  << setw(15) << "Username"
                  << setw(15) << "No HP"
                  << setw(30) << "Alamat" << endl;
-                 
-                 cout << string(85, '-') << endl;
-                 
-                 cout << left
-                 << setw(5) << daftar[indeks].id
+
+            cout << string(85, '-') << endl;
+
+            cout << left
+                 << setw(5) << daftar[indeks].Nomor
                  << setw(20) << daftar[indeks].nama
                  << setw(15) << daftar[indeks].username
                  << setw(15) << daftar[indeks].no_hp
                  << setw(30) << daftar[indeks].alamat << endl;
-                 
-                 cout << string(85, '-') << endl;
-                }
-                else
-                {
-                    cout << "Customer dengan username tersebut tidak ditemukan.\n";
-                }
-            }
-            else
-            {
-                cout << "Pilihan tidak valid. Silakan pilih 1 atau 2.\n";
-            }
+
+            cout << string(85, '-') << endl;
         }
+        else
+        {
+            cout << "Customer dengan username tersebut tidak ditemukan.\n";
+        }
+    }
+    else
+    {
+        cout << "Pilihan tidak valid. Silakan pilih 1 atau 2.\n";
+    }
+}
 
 void selectionSort(hewan daftar[], int jumlah)
 {
@@ -563,25 +558,26 @@ int jumpSearch(hewan daftar[], int jumlah, int targetID)
 {
     int step = sqrt(jumlah);
     int prev = 0;
-    
+
     while (daftar[min(step, jumlah) - 1].id < targetID)
     {
         prev = step;
         step += sqrt(jumlah);
         if (prev >= jumlah)
-        return -1;
+            return -1;
     }
-    
+
     for (int i = prev; i < min(step, jumlah); i++)
     {
         if (daftar[i].id == targetID)
-        return i;
+            return i;
     }
-    
+
     return -1;
 }
 
-string to_string(double value, int precision) {
+string to_string(double value, int precision)
+{
     stringstream stream;
     stream << fixed << setprecision(precision) << value;
     return stream.str();
@@ -590,28 +586,26 @@ string to_string(double value, int precision) {
 void tampilkanSemuaHewan(hewan daftar[], int jumlah)
 {
     cout << left
-        << setw(5) << "ID"
-        << setw(15) << "Nama"
-        << setw(10) << "Jenis"
-        << setw(10) << "Berat"
-        << setw(10) << "Umur"
-        << setw(15) << "Perawatan"
-        << setw(20) << "Tanggal Reservasi" << endl;
-
+         << setw(5) << "ID"
+         << setw(15) << "Nama"
+         << setw(10) << "Jenis"
+         << setw(10) << "Berat"
+         << setw(10) << "Umur"
+         << setw(15) << "Perawatan"
+         << setw(20) << "Tanggal Reservasi" << endl;
 
     cout << string(88, '-') << endl;
 
     for (int i = 0; i < jumlah; i++)
     {
-    cout << left
-        << setw(5) << daftar[i].id
-        << setw(15) << daftar[i].nama
-        << setw(10) << daftar[i].jenis
-        << setw(10) << (to_string(daftar[i].berat, 1) + " kg")
-        << setw(10) << (to_string(daftar[i].umur, 1) + " th")
-        << setw(15) << daftar[i].perawatan
-        << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
-
+        cout << left
+             << setw(5) << daftar[i].id
+             << setw(15) << daftar[i].nama
+             << setw(10) << daftar[i].jenis
+             << setw(10) << (to_string(daftar[i].berat, 1) + " kg")
+             << setw(10) << (to_string(daftar[i].umur, 1) + " th")
+             << setw(15) << daftar[i].perawatan
+             << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
     }
 
     cout << string(88, '-') << endl;
@@ -650,13 +644,13 @@ void tampilkanHewan(hewan daftar[], int jumlah)
             cout << "\nData ditemukan:\n";
             cout << "\n========= DATA HEWAN =========\n";
             cout << left
-                << setw(5) << "ID"
-                << setw(15) << "Nama"
-                << setw(10) << "Jenis"
-                << setw(10) << "Berat"
-                << setw(10) << "Umur"
-                << setw(15) << "Perawatan"
-                << setw(20) << "Tanggal Reservasi" << endl;
+                 << setw(5) << "ID"
+                 << setw(15) << "Nama"
+                 << setw(10) << "Jenis"
+                 << setw(10) << "Berat"
+                 << setw(10) << "Umur"
+                 << setw(15) << "Perawatan"
+                 << setw(20) << "Tanggal Reservasi" << endl;
 
             cout << string(88, '-') << endl;
 
@@ -686,13 +680,13 @@ void tampilkanHewanByUser(hewan *daftar, int jumlah, string username_pengguna)
 {
     cout << "\n========= DATA HEWANKU =========\n";
     cout << left
-        << setw(5) << "ID"
-        << setw(15) << "Nama"
-        << setw(10) << "Jenis"
-        << setw(10) << "Berat"
-        << setw(10) << "Umur"
-        << setw(15) << "Perawatan"
-        << setw(20) << "Tanggal Reservasi" << endl;
+         << setw(5) << "ID"
+         << setw(15) << "Nama"
+         << setw(10) << "Jenis"
+         << setw(10) << "Berat"
+         << setw(10) << "Umur"
+         << setw(15) << "Perawatan"
+         << setw(20) << "Tanggal Reservasi" << endl;
 
     cout << string(90, '-') << endl;
 
@@ -838,7 +832,7 @@ void ubahCustomer(Customer daftar[], int jumlah)
     for (int i = 0; i < jumlah; i++)
     {
         cout << left
-             << setw(5) << daftar[i].id
+             << setw(5) << daftar[i].Nomor
              << setw(20) << daftar[i].nama
              << setw(15) << daftar[i].username
              << setw(15) << daftar[i].no_hp
@@ -941,7 +935,7 @@ void hapusCustomer(Customer daftar[], int &jumlah)
     }
     cout << "\n========= DATA CUSTOMER =========\n";
     cout << left
-         << setw(5) << "ID"
+         << setw(5) << "No."
          << setw(20) << "Nama"
          << setw(15) << "Username"
          << setw(15) << "No HP"
@@ -952,7 +946,7 @@ void hapusCustomer(Customer daftar[], int &jumlah)
     for (int i = 0; i < jumlah; i++)
     {
         cout << left
-             << setw(5) << daftar[i].id
+             << setw(5) << daftar[i].Nomor
              << setw(20) << daftar[i].nama
              << setw(15) << daftar[i].username
              << setw(15) << daftar[i].no_hp
@@ -972,7 +966,7 @@ void hapusCustomer(Customer daftar[], int &jumlah)
     char konfirmasi;
     cout << "Apakah Anda yakin ingin menghapus customer dengan username \"" << username << "\"? (y/n): ";
     cin >> konfirmasi;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore();
 
     if (konfirmasi == 'y' || konfirmasi == 'Y')
     {
@@ -1023,7 +1017,7 @@ void hapusHewan_ptr(hewan *daftar, int *jumlah)
     char konfirmasi;
     cout << "Apakah Anda yakin ingin menghapus hewan dengan ID " << id << "? (y/n): ";
     cin >> konfirmasi;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore();
 
     if (konfirmasi == 'y' || konfirmasi == 'Y')
     {
@@ -1136,13 +1130,14 @@ void laporanHewan(hewan *daftar, int jumlah)
     int perawatanCount = 0;
 
     cout << "\nLaporan Petshop Pawpatrol (Tanggal " << tgl << "/" << bln << "/" << thn << "):\n";
-    cout << left << setw(5) << "ID"
+    cout << left
+         << setw(5) << "ID"
          << setw(15) << "Nama"
-         << setw(12) << "Jenis"
-         << setw(12) << "Berat"
-         << setw(6) << "Umur"
+         << setw(10) << "Jenis"
+         << setw(10) << "Berat"
+         << setw(10) << "Umur"
          << setw(15) << "Perawatan"
-         << setw(12) << "Tanggal Reservasi" << endl;
+         << setw(20) << "Tanggal Reservasi" << endl;
     cout << string(77, '-') << endl;
 
     int total = 0;
@@ -1156,8 +1151,8 @@ void laporanHewan(hewan *daftar, int jumlah)
             cout << left << setw(5) << daftar[i].id
                  << setw(15) << daftar[i].nama
                  << setw(12) << daftar[i].jenis
-                 << setw(12) << daftar[i].berat
-                 << setw(6) << fixed << setprecision(2) << daftar[i].umur
+                 << setw(10) << (to_string(daftar[i].berat, 1) + " kg")
+                 << setw(10) << (to_string(daftar[i].umur, 1) + " th")
                  << setw(15) << daftar[i].perawatan
                  << setw(2) << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
 
