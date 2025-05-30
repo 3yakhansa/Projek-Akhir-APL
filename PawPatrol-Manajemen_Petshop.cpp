@@ -607,7 +607,6 @@ void tampilkanSemuaHewan(hewan daftar[], int jumlah)
              << setw(15) << daftar[i].perawatan
              << daftar[i].reservasi.tanggal << "/" << daftar[i].reservasi.bulan << "/" << daftar[i].reservasi.tahun << endl;
     }
-
     cout << string(88, '-') << endl;
 }
 
